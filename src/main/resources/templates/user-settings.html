@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-settings.css}">
+    <title>User settings</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div class="content-container">
+            <section class="py-5">
+                <div class="container text-center">
+                    <h1 class="font-weight-light text-light">User settings</h1>
+                    <p class="lead text-light">You can choose the data displayed in the statistics.</p>
+                </div>
+            </section>
+            <div class="all-form-container">
+                <div class="container-form">
+                    <div class="row centered-form">
+                        <div class="panel panel-default form-size">
+                            <div class="panel-body">
+                                <form method="post" th:action="@{/user/settings}" th:object="${userSettings}" role="form">
+                                    <div class="form-check">
+                                        <input th:field="*{showTime}" class="form-check-input" type="checkbox" id="showTimeId">
+                                        <label class="form-check-label" for="showTimeId">
+                                            Show time
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showCoordinates}" class="form-check-input" type="checkbox" id="showCoordinatesId">
+                                        <label class="form-check-label" for="showCoordinatesId">
+                                            Show coordinates
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showCog}" class="form-check-input" type="checkbox" id="showCogId">
+                                        <label class="form-check-label" for="showCogId">
+                                            Show cog
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showSog}" class="form-check-input" type="checkbox" id="showSogId">
+                                        <label class="form-check-label" for="showSogId">
+                                            Show sog
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showRot}" class="form-check-input" type="checkbox" id="showRotId">
+                                        <label class="form-check-label" for="showRotId">
+                                            Show rot
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showNavstat}" class="form-check-input" type="checkbox" id="showNavstatId">
+                                        <label class="form-check-label" for="showNavstatId">
+                                            Show navstart
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showEta}" class="form-check-input" type="checkbox" id="showEtaId">
+                                        <label class="form-check-label" for="showEtaId">
+                                            Show eta
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showDestination}" class="form-check-input" type="checkbox" id="showDestinationId">
+                                        <label class="form-check-label" for="showDestinationId">
+                                            Show destination
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showHeading}" class="form-check-input" type="checkbox" id="showHeadingId">
+                                        <label class="form-check-label" for="showHeadingId">
+                                            Show heading
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showDraught}" class="form-check-input" type="checkbox" id="showDraughtId">
+                                        <label class="form-check-label" for="showDraughtId">
+                                            Show draught
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input th:field="*{showSurvey}" class="form-check-input" type="checkbox" id="showSurveyId">
+                                        <label class="form-check-label" for="showSurveyId">
+                                            Show survey
+                                        </label>
+                                    </div>
+                                    <input type="submit" value="Save settings" class="btn btn-success btn-lg btn-block">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

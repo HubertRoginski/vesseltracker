@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users.css}">
+    <title>Users</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div class="content-container">
+            <section class="py-5">
+                <div class="container text-center">
+                    <h1 class="font-weight-light text-light">Users</h1>
+                    <p class="lead text-light">Shown is a list of users who have an account at the Vessel tracker.</p>
+                </div>
+            </section>
+            <div class="card my-3 w-75 rounded">
+                <div class="card-header">
+                    <div class="left-site-card-header">
+                        <div class="list-group list-group-horizontal">
+                            <a type="button" class="list-group-item disabled" th:text="'Size:'"></a>
+                            <a th:if="${userPage.size}!=5" type="button" class="list-group-item" th:href="@{/users(size=5, page=1,keyword=${addedKeyword})}">5</a>
+                            <a th:if="${userPage.size}==5" type="button" class="list-group-item active" th:href="@{/users(size=5, page=1,keyword=${addedKeyword})}">5</a>
+                            <a th:if="${userPage.size}!=10" type="button" class="list-group-item" th:href="@{/users(size=10, page=1,keyword=${addedKeyword})}">10</a>
+                            <a th:if="${userPage.size}==10" type="button" class="list-group-item active" th:href="@{/users(size=10, page=1,keyword=${addedKeyword})}">10</a>
+                            <a th:if="${userPage.size}!=20" type="button" class="list-group-item" th:href="@{/users(size=20, page=1,keyword=${addedKeyword})}">20</a>
+                            <a th:if="${userPage.size}==20" type="button" class="list-group-item active" th:href="@{/users(size=20, page=1,keyword=${addedKeyword})}">20</a>
+                        </div>
+                        <div>
+                            <a th:href="@{/users/add}">
+                                <button class="btn btn-success header-buttons-add" type="button"><span class="fas fa-user-plus"></span>
+                                    Add user
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="justify-content-end">
+                        <form th:action="@{/users}" method="get">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary header-buttons" type="submit"><span class="fas fa-search"></span> Search</button>
+                                </span>
+                                <input type="text" class="form-control" name="keyword" placeholder="Search users" aria-label=""
+                                           aria-describedby="basic-addon1">
+                                <span class="input-group-btn">
+                                        <a th:if="${userPage.size}==5" class="btn btn-danger header-buttons cancel-search-btn" type="button" th:href="@{/users(size=5, page=1,keyword='')}"><span class="fas fa-search-minus"></span></a>
+                                        <a th:if="${userPage.size}==10" class="btn btn-danger header-buttons cancel-search-btn" type="button" th:href="@{/users(size=10, page=1,keyword='')}"><span class="fas fa-search-minus"></span></a>
+                                        <a th:if="${userPage.size}==20" class="btn btn-danger header-buttons cancel-search-btn" type="button" th:href="@{/users(size=20, page=1,keyword='')}"><span class="fas fa-search-minus"></span></a>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Id</th>
+                            <th scope="col" class="text-center">Username</th>
+                            <th scope="col" class="text-center">Email</th>
+                            <th scope="col" class="text-center">Role</th>
+                            <th scope="col" class="text-center">Enabled</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${usersList}">
+                            <td th:text="${user.id}" class="text-center align-middle"></td>
+                            <td th:text="${user.username}" class="text-center align-middle"></td>
+                            <td th:text="${user.email}" class="text-center align-middle"></td>
+                            <td th:text="${user.role}" class="text-center align-middle"></td>
+                            <td th:text="${user.enabled}" class="text-center align-middle"></td>
+                            <td class="text-center align-middle">
+                                <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
+                                    <a th:href="@{/users/__${user.id}__}" class='btn btn-info action-btn'><span
+                                            class="fas fa-user-edit"></span> Edit</a>
+                                    <button type="submit" class="btn btn-danger action-btn"><span class="fas fa-user-minus"></span> Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item " th:classappend="${userPage.first} ? disabled">
+                        <a class="page-link"
+                           th:href="@{/users(size=${userPage.size}, page=${userPage.number},keyword=${addedKeyword})}"
+                           tabindex="-1">Previous</a>
+                    </li>
+                    <ul th:if="${userPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
+                        <li class="page-item">
+                            <a class="page-link"
+                               th:href="@{/users(size=${userPage.size}, page=${pageNumber},keyword=${addedKeyword})}"
+                               th:classappend="${pageNumber == userPage.number + 1} ? active" th:text="${pageNumber}"></a></li>
+                    </ul>
+                    <li class="page-item" th:classappend="${userPage.last} ? disabled">
+                        <a class="page-link"
+                           th:href="@{/users(size=${userPage.size}, page=${userPage.number+2},keyword=${addedKeyword})}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

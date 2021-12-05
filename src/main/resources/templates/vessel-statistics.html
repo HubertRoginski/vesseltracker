@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/vessel-statistics.css}">
+    <meta charset="UTF-8">
+    <title>Vessels</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div class="content-container">
+            <section class="py-5">
+                <div class="container text-center">
+                    <h1 class="font-weight-light text-light">Vessel statistics</h1>
+                    <p class="lead text-light">shows the collected vessel data.</p>
+                </div>
+            </section>
+            <div class="card-container rounded">
+                <div class="card-body">
+                    <div class="card" style="width: 18rem;">
+                        <div th:if="${vessel.shipType} == 30">
+                            <img class="card-img-top" th:src="@{/images/vessels/fishing.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} == 33">
+                            <img class="card-img-top" th:src="@{/images/vessels/dredging.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} == 50">
+                            <img class="card-img-top" th:src="@{/images/vessels/pilot.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} == 51">
+                            <img class="card-img-top" th:src="@{/images/vessels/rescue.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} == 52">
+                            <img class="card-img-top" th:src="@{/images/vessels/tug.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} > 39 and ${vessel.shipType} < 50">
+                            <img class="card-img-top" th:src="@{/images/vessels/hcs.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} > 59 and ${vessel.shipType} < 70">
+                            <img class="card-img-top" th:src="@{/images/vessels/passenger.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} > 69 and ${vessel.shipType} < 80">
+                            <img class="card-img-top" th:src="@{/images/vessels/cargo.jpg}">
+                        </div>
+                        <div th:if="${vessel.shipType} > 79 and ${vessel.shipType} < 90">
+                            <img class="card-img-top" th:src="@{/images/vessels/tanker.jpg}">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title" th:text="${vessel.name}"></h3>
+                            <h5 class="card-title" th:inline="text">mmsi: [[${vessel.mmsi}]]</h5>
+                            <h6 class="card-title" th:if="${vessel.imo}" th:inline="text">imo: [[${vessel.imo}]]</h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:inline="text">Callsign: [[${vessel.callsign}]]</li>
+                            <li class="list-group-item" th:inline="text">Country: [[${vessel.country}]]</li>
+                            <li class="list-group-item" th:if="${vessel.shipTypeName} != ''" th:inline="text">Type: [[${vessel.shipTypeName}]]</li>
+                            <li class="list-group-item" th:if="${vessel.a}" th:inline="text">Dimensions:
+                                <span>a: [[${vessel.a}]]m, b: [[${vessel.b}]]m,</span>
+                                <span>c: [[${vessel.c}]]m, d: [[${vessel.d}]]m</span>
+                            </li>
+                            <li class="list-group-item">
+                                <a th:href="@{/map(vesselMmsi=${vessel.mmsi})}" class="d-flex justify-content-center card-link">
+                                    Show on map
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="statistics-table card my-3 w-80 rounded">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" class="text-center">No</th>
+                                <th th:if="${userSettings.showTime}" scope="col" class="text-center">Time</th>
+                                <th th:if="${userSettings.showCoordinates}" scope="col" class="text-center">Longitude</th>
+                                <th th:if="${userSettings.showCoordinates}" scope="col" class="text-center">Latitude</th>
+                                <th th:if="${userSettings.showCog}" scope="col" class="text-center">Cog</th>
+                                <th th:if="${userSettings.showSog}" scope="col" class="text-center">Sog</th>
+                                <th th:if="${userSettings.showRot}" scope="col" class="text-center">Rot</th>
+                                <th th:if="${userSettings.showNavstat}" scope="col" class="text-center">Navstat</th>
+                                <th th:if="${userSettings.showEta}" scope="col" class="text-center">Eta</th>
+                                <th th:if="${userSettings.showDestination}" scope="col" class="text-center">Destination</th>
+                                <th th:if="${userSettings.showHeading}" scope="col" class="text-center">Heading</th>
+                                <th th:if="${userSettings.showDraught}" scope="col" class="text-center">Draught</th>
+                                <th th:if="${userSettings.showSurvey}" scope="col" class="text-center">Survey</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="position : ${positions}">
+                                <td th:text="${positionStat.count}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showTime}" th:text="${#temporals.format(position.time, 'dd-MM-yyyy HH:mm')}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showCoordinates}" th:text="${position.longitude}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showCoordinates}" th:text="${position.latitude}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showCog}" th:text="${position.cog}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showSog}" th:text="${position.sog}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showRot}" th:text="${position.rot}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showNavstat}" th:text="${position.navstat}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showEta}" th:text="${position.eta}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showDestination}" th:text="${position.destination}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showHeading}" th:text="${position.heading}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showDraught}" th:text="${position.draught}" class="text-center align-middle"></td>
+                                <td th:if="${userSettings.showSurvey}" th:text="${position.survey}" class="text-center align-middle"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    Legend:
+                    <ul>
+                        <li>Cog - Course over ground - course expressed in degrees (in range 0 - 359.9),</li>
+                        <li>Sog - Speed over ground in knots,</li>
+                        <li>Rot - Rate of turn,</li>
+                        <li>Navstat - Navigational status (as defined by AIS standard),</li>
+                        <li>Eta - Estimated time of arrival at destination,</li>
+                        <li>Heading - Heading in degrees (0-359),</li>
+                        <li>Draught - Draught of vessel, in 0.1 meter increments.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

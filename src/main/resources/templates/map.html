@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/map.css}">
+    <title>Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div id="map"></div>
+        <script th:inline="javascript">
+
+            var map = L.map('map').setView([52.95, 19.23], 13);
+
+            var titleLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var positions = [[${tracks}]];
+            var selectedMmsi = [[${vesselMmsi}]];
+
+            var lastClickedMarker;
+            var markerTo;
+            var distanceCenterMarker;
+            var distancePolygon;
+            var vesselMarkers = [];
+
+            positions.forEach(value => {
+                if(selectedMmsi != null && selectedMmsi == value.vesselModel.mmsi){
+                    L.circleMarker([value.x, value.y], {color: "black", radius: 10})
+                        .addTo(map);
+                }
+                var vesselMarker = L.marker([value.x, value.y])
+                    .addTo(map)
+                    .bindTooltip(
+                        value.vesselModel.name + "<br>" +
+                        "mmsi: " + value.vesselModel.mmsi + "<br>" +
+                        "type: " + value.vesselModel.shipTypeName)
+                    .openTooltip()
+                    .on('click', () => {
+                        if(lastClickedMarker != null){
+                            var from = lastClickedMarker.getLatLng();
+                            markerTo = L.circleMarker([value.x, value.y], {color: "#4AFF00", radius: 10});
+                            var to = markerTo.getLatLng();
+                            map.addLayer(markerTo);
+                            distancePolygon = L.polygon([
+                                [from.lat, from.lng],
+                                [to.lat, to.lng],
+                            ]).addTo(map);
+                            var distanceCenter = L.latLngBounds(from, to).getCenter();
+                            distanceCenterMarker = L.circleMarker([distanceCenter.lat, distanceCenter.lng], {opacity: 0, radius: 1})
+                                .addTo(map)
+                                .bindTooltip((from.distanceTo(to)).toFixed(0)/1000 + ' km', {permanent: true})
+                                .openTooltip();
+                        }
+                        else {
+                            lastClickedMarker = L.circleMarker([value.x, value.y], {color: "#F00", radius: 10});
+                            map.addLayer(lastClickedMarker);
+                        }
+                    });
+                    vesselMarkers.push(vesselMarker);
+            })
+
+            map.on('dblclick', () => {
+                map.zoomOut(1);
+                map.eachLayer(function (layer) {
+                    if(layer != titleLayer && !vesselMarkers.includes(layer)){
+                        map.removeLayer(layer);
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+</body>
+</html>

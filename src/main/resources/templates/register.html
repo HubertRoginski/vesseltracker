@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/register.css}">
+    <title>Register</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="content-container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Sign Up</h3>
+                </div>
+                <div class="card-body">
+                    <form name="f" method="post" th:action="@{/register}" th:object="${user}">
+                        <div th:if="${userExistsError}" class="input-group alert alert-danger">
+                            <div th:text="${userExistsError}"></div>
+                        </div>
+                        <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i>*</span>
+                            </div>
+                            <input type="text" class="form-control" name="username" placeholder="Username"
+                                   th:field="*{username}">
+                        </div>
+                        <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i>*</span>
+                            </div>
+                            <input type="text" class="form-control" name="email" placeholder="Email"
+                                   th:field="*{email}">
+                        </div>
+                        <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i>*</span>
+                            </div>
+                            <input type="password" class="form-control" id="password-register" name="password"
+                                   placeholder="Password"
+                                   th:field="*{password}">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i>*</span>
+                            </div>
+                            <input type="password" class="form-control" id="confirm-password-register"
+                                   placeholder="Confirm password">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create account" class="btn float-right register_btn">
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Do have an account?<a th:href="@{/login}"><b>Sign In</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script th:src="@{/scripts/register.js}"></script>
+</body>
+</html>

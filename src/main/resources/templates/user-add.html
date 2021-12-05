@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-add.css}">
+    <title>Add user</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <section class="py-5">
+            <div class="container text-center">
+                <h1 class="font-weight-light text-light">User add</h1>
+                <p class="lead text-light">It is possible to add a new user.</p>
+            </div>
+        </section>
+        <div class="all-form-container">
+            <div class="container-form">
+                <div class="row centered-form">
+                    <div class="panel panel-default form-size">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Add new user</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form method="post" th:action="@{/users/add}" th:object="${user}" role="form">
+                                <div th:if="${userExistsError}" class="input-group alert alert-danger">
+                                    <div th:text="${userExistsError}"></div>
+                                </div>
+                                <label>Username:</label>
+                                <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
+                                    <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" th:field="*{username}" name="username" class="form-control input-sm"
+                                           placeholder="Username">
+                                </div>
+                                <label>Email:</label>
+                                <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
+                                    <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" th:field="*{email}" name="email" class="form-control input-sm"
+                                           placeholder="Email">
+                                </div>
+                                <label>Password:</label>
+                                <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
+                                    <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" th:field="*{password}" name="password" class="form-control input-sm"
+                                           placeholder="Password">
+                                </div>
+                                <label>Role:</label>
+                                <div class="form-group">
+                                    <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">
+                                        <option selected="selected" th:value="ROLE_USER" th:text="User"></option>
+                                        <option th:value="ROLE_ADMIN" th:text="Admin"></option>
+                                    </select>
+                                </div>
+                                <label>Enabled:</label>
+                                <div class="form-group">
+                                    <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">
+                                        <option selected="selected" th:value="true" th:text="true"></option>
+                                        <option th:value="false" th:text="false"></option>
+                                    </select>
+                                </div>
+                                <input type="submit" value="Add user" class="btn btn-success btn-lg btn-block">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-form">
+                    <div class="row centered-form">
+                        <div class="panel panel-default form-size">
+                            <div class="panel-body reservation-management-btn">
+                                <a th:href="@{/users}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-users"></span> Back to users list</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

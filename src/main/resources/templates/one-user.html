@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/one-user.css}">
+    <title>User</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div class="content-container">
+            <section class="py-5">
+                <div class="container text-center">
+                    <h1 class="font-weight-light text-light">User edit</h1>
+                    <p class="lead text-light">Shown is a user which can be edited.</p>
+                </div>
+            </section>
+            <div class="card my-3 w-75 rounded">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Id</th>
+                            <th scope="col" class="text-center">Username</th>
+                            <th scope="col" class="text-center">Email</th>
+                            <th scope="col" class="text-center">Role</th>
+                            <th scope="col" class="text-center">Enabled</th>
+                            <th th:if="${isAuthorizedUserAdmin}" scope="col" class="text-center">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:object="${userTable}">
+                            <td th:text="*{id}" class="text-center align-middle"></td>
+                            <td th:text="*{username}" class="text-center align-middle"></td>
+                            <td th:text="*{email}" class="text-center align-middle"></td>
+                            <td th:text="*{role}" class="text-center align-middle"></td>
+                            <td th:text="*{enabled}" class="text-center align-middle"></td>
+                            <td th:if="${isAuthorizedUserAdmin}" class="text-center align-middle">
+                                <form method="post" th:action="@{/users/{id}/delete(id=${userTable.id})}">
+                                    <button type="submit" class="btn btn-danger action-btn"><span class="fas fa-user-minus"></span> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="all-form-container">
+            <div class="container-form">
+                <div class="row centered-form">
+                        <div class="panel panel-default form-size">
+                            <div class="panel-heading">
+                                <h3 class="panel-title text-center">Edit user</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form method="post" th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" role="form">
+                                    <div th:if="${userExistsError}" class="input-group alert alert-danger">
+                                        <div th:text="${userExistsError}"></div>
+                                    </div>
+                                    <label>Username:</label>
+                                    <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
+                                        <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" th:field="*{username}" name="username" class="form-control input-sm" placeholder="Username">
+                                    </div>
+                                    <label>Email:</label>
+                                    <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
+                                        <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" th:field="*{email}" name="email" class="form-control input-sm" placeholder="Email">
+                                    </div>
+                                    <div hidden class="form-group">
+                                        <input type="text" th:field="*{password}" name="password" class="form-control input-sm" placeholder="password">
+                                    </div>
+                                    <label>Role:</label>
+                                    <div class="form-group">
+                                        <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">
+                                            <option selected="selected" th:value="ROLE_USER" th:text="User"></option>
+                                            <option th:value="ROLE_MANAGER" th:text="Manager"></option>
+                                            <option th:value="ROLE_ADMIN" th:text="Admin"></option>
+                                        </select>
+                                    </div>
+                                    <label>Enabled:</label>
+                                    <div class="form-group">
+                                        <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">
+                                            <option selected="selected" th:value="true" th:text="true"></option>
+                                            <option th:value="false" th:text="false"></option>
+                                        </select>
+                                    </div>
+                                    <input type="submit" value="Update user" class="btn btn-success btn-lg btn-block">
+                                </form>
+                            </div>
+                        </div>
+                </div>
+                <div class="container-form">
+                <div class="row centered-form">
+                    <div class="panel panel-default form-size">
+                        <div class="panel-body reservation-management-btn">
+                            <a th:href="@{/users}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-users"></span> Back to users list</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

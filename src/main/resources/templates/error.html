@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/error.css}">
+    <title>ERROR</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-blue fixed-top" th:fragment="menu">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Vessel tracker
+                <img class="navbar-logo" th:src="@{/images/navbar/vesselTrackerLogo.png}" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link active" th:href="@{/}"><span class="fas fa-home nav-menu-icons"></span> Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="page-wrap d-flex flex-row align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center">
+                    <span class="display-1 d-block"><span class="fas fa-exclamation-circle error-circle"></span></span>
+                    <h1 class="font-weight-bold error-info">The page you are looking for was not found or error occurs.</h1>
+                    <a th:href="@{/}"><button class="btn back-home-btn" type="button"><span class="fas fa-home"></span> Back to homepage</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="fragments/structure :: footer"></div>
+</body>
+</html>

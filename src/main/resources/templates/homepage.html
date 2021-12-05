@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/homepage.css}">
+    <title>Vessel tracker</title>
+</head>
+<body>
+    <div class="grid-container">
+        <div th:insert="fragments/structure :: menu"></div>
+        <div class="content-container">
+            <header>
+                <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active carousel-item-1">
+                            <div class="carousel-caption d-md-block">
+                                <h3 class="carousel-description display-4">Vessel tracker</h3>
+                                <p class="lead">Track vessels location live.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item carousel-item-2">
+                            <div class="carousel-caption d-md-block">
+                                <h3 class="display-4">The demanding world of water</h3>
+                                <p class="lead">Learn about the problems posed by the seas and oceans.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item carousel-item-3">
+                            <div class="carousel-caption d-md-block">
+                                <h3 class="display-4">Safety comes first</h3>
+                                <p class="lead">Ensure the safety of the vessel's crew by providing them with invaluable information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" th:href="@{#carouselExampleIndicators}" role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" th:href="@{#carouselExampleIndicators}" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </header>
+
+            <section class="py-5">
+                <div class="text-center">
+                    <h1 class="font-weight-light">Vessel tracker</h1>
+                    <p class="lead">Welcome to vessel tracker where you can follow live vessel data on seas and oceans!</p>
+                    <p th:if="!${isUserLogged}" class="lead">
+                        <a class="register-now-link" th:href="@{/register}">
+                            <b>Register and collect invaluable knowledge!</b>
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <div class="container py-4 mt-4">
+                <h1 class="my-4 text-info display-4">
+                    <small class="text-secondary">Great vessel tracker features</small>
+                </h1>
+                <div class="row mt-4">
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="card shadow border-0 h-100">
+                            <a href="#"><img class="card-img-top" th:src="@{/images/homepage/homepage-map.jpg}"
+                                             alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">Map</a>
+                                </h4>
+                                <p class="card-text">Map with the geographical positions of the vessels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="card shadow border-0 h-100">
+                            <a href="#"><img class="card-img-top" th:src="@{/images/homepage/homepage-vessels.jpg}"
+                                             alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">Vessels data</a>
+                                </h4>
+                                <p class="card-text">Details of each vessel.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="card shadow border-0 h-100">
+                            <a href="#"><img class="card-img-top" th:src="@{/images/homepage/homepage-statistics.jpg}"
+                                             alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">Personalization of statistical data</a>
+                                </h4>
+                                <p class="card-text">Choose what data you are interested in.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="card shadow border-0 h-100">
+                            <a href="#"><img class="card-img-top" th:src="@{/images/homepage/homepage-settings.jpg}"
+                                             alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">Statistics</a>
+                                </h4>
+                                <p class="card-text">Vessels statistics and historical data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/structure :: footer"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

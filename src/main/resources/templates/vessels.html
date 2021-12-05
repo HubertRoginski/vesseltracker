@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/vessels.css}">
+    <title>Vessels</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+        <div class="content-container">
+            <section class="py-5">
+                <div class="container text-center">
+                    <h1 class="font-weight-light text-light">Vessels</h1>
+                    <p class="lead text-light">Shows vessels that were in the vessel tracker area.</p>
+                </div>
+            </section>
+            <div class="card-container rounded">
+                <h1 class="font-weight-light text-light">Favorite:</h1><br>
+                <div class="card-body">
+                    <div th:replace="fragments/vesselCards :: cards(vessels=${favoriteVessels}, isAdd='false')"></div>
+                </div>
+                <h1 class="font-weight-light text-light">Others:</h1><br>
+                <div class="card-body">
+                    <div th:replace="fragments/vesselCards :: cards(vessels=${otherVessels}, isAdd='true')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>

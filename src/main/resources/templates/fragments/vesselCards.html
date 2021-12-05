@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="vessel : ${vessels}" th:fragment="cards">
+    <div class="card" style="width: 18rem;">
+        <div th:if="${vessel.shipType} == 30">
+            <img class="card-img-top" th:src="@{/images/vessels/fishing.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} == 33">
+            <img class="card-img-top" th:src="@{/images/vessels/dredging.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} == 50">
+            <img class="card-img-top" th:src="@{/images/vessels/pilot.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} == 51">
+            <img class="card-img-top" th:src="@{/images/vessels/rescue.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} == 52">
+            <img class="card-img-top" th:src="@{/images/vessels/tug.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} > 39 and ${vessel.shipType} < 50">
+            <img class="card-img-top" th:src="@{/images/vessels/hcs.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} > 59 and ${vessel.shipType} < 70">
+            <img class="card-img-top" th:src="@{/images/vessels/passenger.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} > 69 and ${vessel.shipType} < 80">
+            <img class="card-img-top" th:src="@{/images/vessels/cargo.jpg}">
+        </div>
+        <div th:if="${vessel.shipType} > 79 and ${vessel.shipType} < 90">
+            <img class="card-img-top" th:src="@{/images/vessels/tanker.jpg}">
+        </div>
+        <div class="card-body">
+            <h3 class="card-title" th:text="${vessel.name}"></h3>
+            <h5 class="card-title" th:inline="text">mmsi: [[${vessel.mmsi}]]</h5>
+            <h6 class="card-title" th:if="${vessel.imo}" th:inline="text">imo: [[${vessel.imo}]]</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" th:inline="text">Callsign: [[${vessel.callsign}]]</li>
+            <li class="list-group-item" th:inline="text">Country: [[${vessel.country}]]</li>
+            <li class="list-group-item" th:if="${vessel.shipTypeName} != ''" th:inline="text">Type: [[${vessel.shipTypeName}]]</li>
+            <li class="list-group-item" th:if="${vessel.a}" th:inline="text">Dimensions:
+                <span>a: [[${vessel.a}]]m, b: [[${vessel.b}]]m,</span>
+                <span>c: [[${vessel.c}]]m, d: [[${vessel.d}]]m</span>
+            </li>
+            <li class="list-group-item">
+                <div class="d-flex justify-content-center">
+                    <form method="post" th:action="@{/vessels(vesselMmsi=${vessel.mmsi}, add=${isAdd})}">
+                        <button type="submit" class="btn btn-light action-btn">
+                            <span th:if="${isAdd}">Add to favorites <span class="far fa-heart"></span></span>
+                            <span th:if="!${isAdd}">Remove from favorites <span class="fas fa-heart"></span></span>
+                        </button>
+                    </form>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{/vessels/statistics/__${vessel.mmsi}__}" class="d-flex justify-content-center card-link">
+                    Statistics and historical data
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{/map(vesselMmsi=${vessel.mmsi})}" class="d-flex justify-content-center card-link">
+                    Show on map
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

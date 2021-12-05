@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/fragments/structure.css}">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/images/icons/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/icons/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/images/icons/favicon-16x16.png}">
+    <link rel="manifest" th:href="@{/images/icons/site.webmanifest}">
+    <meta charset="UTF-8">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-blue fixed-top" th:fragment="menu">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Vessel tracker
+                <img class="navbar-logo" th:src="@{/images/navbar/vesselTrackerLogo.png}" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a th:href="@{/}" class="nav-link" th:classappend="${pageName == 'home' ? 'active' : ''}">
+                            <span class="fas fa-home nav-menu-icons"></span> Home
+                        </a>
+                    </li>
+                    <li th:if="${!isUserLogged}" class="nav-item">
+                        <a th:href="@{/login}" class="nav-link" th:classappend="${pageName == 'login' ? 'active' : ''}">
+                            <span class="fas fa-sign-in-alt nav-menu-icons"></span> Login
+                        </a>
+                    </li>
+                    <li th:if="${isUserLogged}" class="nav-item">
+                        <a th:href="@{/map}" class="nav-link" th:classappend="${pageName == 'map' ? 'active' : ''}">
+                            <span class="fas fa-map-marked-alt nav-menu-icons"></span> Map
+                        </a>
+                    </li>
+                    <li th:if="${isUserLogged}" class="nav-item">
+                        <a th:href="@{/vessels}" class="nav-link" th:classappend="${pageName == 'vessels' ? 'active' : ''}">
+                            <span class="fas fa-ship nav-menu-icons"></span> Vessels
+                        </a>
+                    </li>
+                    <li th:if="${isUserLogged}" class="nav-item">
+                        <a th:href="@{/user/settings}" class="nav-link" th:classappend="${pageName == 'settings' ? 'active' : ''}">
+                            <span class="fas fa-user-cog nav-menu-icons"></span> Settings
+                        </a>
+                    </li>
+                    <li th:if="${isAdminAuthorized}" class="nav-item">
+                        <a th:href="@{/users}" class="nav-link" th:classappend="${pageName == 'users' ? 'active' : ''}">
+                            <span class="fas fa-users"></span> Users
+                        </a>
+                    </li>
+                    <li th:if="${isUserLogged}" class="nav-item">
+                        <a th:href="@{/logout}" class="nav-link">
+                            <span class="fas fa-sign-out-alt nav-menu-icons"></span> Logout
+                        </a>
+                    </li>
+                    <li th:if="${!isUserLogged}" class="nav-item">
+                        <a th:href="@{/register}" class="nav-link" th:classappend="${pageName == 'register' ? 'active' : ''}">
+                            <span class="fas fa-user-plus nav-menu-icons"></span> Register
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <footer class="footer" th:fragment="footer">
+        <div class="container">
+            <div class="social_footer_ul">
+                <a th:href="#{footer.social.github}" target="_blank"><i class="fab fa-github"></i></a>
+                <a th:href="#{footer.social.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <ul class="footer_bottom_ul_amrc">
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/about}">About</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+            <p class="footer-text-center">
+                Copyright @2021 | Designed by
+                <a th:href="#{footer.social.designedBy}" target="_blank"><b>Hubert Rogiński</b></a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

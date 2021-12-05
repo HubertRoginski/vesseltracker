@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <div th:replace="fragments/structure :: head"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/contact.css}">
+    <title>Contact</title>
+</head>
+<body>
+<div class="grid-container">
+    <div th:insert="fragments/structure :: menu"></div>
+    <div class="all-content-container">
+    <div class="content-container">
+        <div class="social-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <span class="fab fa-github fa-3x"></span>
+                            <div class="box-title">
+                                <h3>Github</h3>
+                            </div>
+                            <div class="box-text">
+                                <span th:text="#{contact.github.boxText}"></span>
+                            </div>
+                            <div class="box-btn">
+                                <a th:href="#{contact.github.boxBtn.address}" target="_blank" th:text="#{contact.github.boxBtn.text}"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <span class="fas fa-at fa-3x"></span>
+                            <div class="box-title">
+                                <h3>Gmail</h3>
+                            </div>
+                            <div class="box-text">
+                                <span th:text="#{contact.gmail.boxText}"></span>
+                            </div>
+                            <div class="box-btn">
+                                <span th:text="#{contact.gmail.boxBtn}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <span class="fab fa-linkedin fa-3x"></span>
+                            <div class="box-title">
+                                <h3>Linkedin</h3>
+                            </div>
+                            <div class="box-text">
+                                <span th:text="#{contact.linkedin.boxText}"></span>
+                            </div>
+                            <div class="box-btn">
+                                <a th:href="#{contact.linkedin.boxBtn.address}" target="_blank" th:text="#{contact.linkedin.boxBtn.text}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="all-form-container">
+        <div class="container-form">
+            <div class="row centered-form">
+                <div class="panel panel-default form-size">
+                    <div class="panel-body">
+                        <a th:href="@{/about}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-book-open"></span> Find out more about this website</a>
+                        <a th:href="@{/}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-home"></span> Back to homepage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div th:replace="fragments/structure :: footer"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</body>
+</html>
