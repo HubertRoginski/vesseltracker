@@ -1,6 +1,5 @@
 package pl.hr.vesseltracker.service.AISTokenService;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,6 @@ import java.util.List;
 @Service
 public class AISTokenService
 {
-    @Value("${ais.token.client_id}")
-    private String clientId;
-    @Value("${ais.token.client_secret}")
-    private String clientSecret;
-
     private final RestTemplate restTemplate;
     private final AISTokenRepository aisTokenRepository;
 
@@ -52,8 +46,8 @@ public class AISTokenService
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         final MultiValueMap<String, String> bodyMap = new LinkedMultiValueMap<>();
         bodyMap.add("grant_type", "client_credentials");
-        bodyMap.add("client_id", clientId);
-        bodyMap.add("client_secret", clientSecret);
+        bodyMap.add("client_id", "saz76196@boofx.com:dsajjdiiada2d2d");
+        bodyMap.add("client_secret", "s2da3wdfafe23vafadd3awdaw");
         bodyMap.add("scope", "api");
         final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(bodyMap, httpHeaders);
 
